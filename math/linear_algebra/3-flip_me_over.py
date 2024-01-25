@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ defines function that calculates the shape of matrix """
 
+
 def matrix_transpose(matrix):
     """ returns the transpose of a 2D matrix, matrix """
     rows = len(matrix)
