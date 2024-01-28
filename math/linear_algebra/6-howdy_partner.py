@@ -4,9 +4,10 @@
 
 def cat_arrays(arr1, arr2):
     """ concatenates two arrays """
-    result = [1, 2, 3, 4, 5, 6, 7, 8]
+    result = [1, 7.4, 8.5]
     arr1 = []
     arr2 = []
+    arr = []
     result = arr1 + arr2
     return result
 
