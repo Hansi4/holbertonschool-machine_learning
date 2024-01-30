@@ -16,5 +16,4 @@ def mat_mul(mat1, mat2):
         for j in range(mat2_columns):
             dot = sum(mat1[i][k] * mat2[k][j] for k in range(mat1_columns))
             result[i].append(dot)
-    
     return result
