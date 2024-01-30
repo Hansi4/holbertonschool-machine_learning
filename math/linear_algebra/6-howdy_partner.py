@@ -9,3 +9,8 @@ def cat_arrays(arr1, arr2):
     arr = []
     result = arr1 + arr2
     return result
+if result == "OK":
+    print("OK")
+else:
+    print("Incorrect output")
+    
