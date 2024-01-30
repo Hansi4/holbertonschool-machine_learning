@@ -4,8 +4,5 @@
 
 def cat_arrays(arr1, arr2):
     """ concatenates two arrays """
-    arr1 = []
-    arr2 = []
-    arr = ["OK"]
     result = arr1 + arr2
     return result
