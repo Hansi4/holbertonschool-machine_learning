@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" that performs element-wise addition, subtraction, multiplication, and division"""
+""" a script that performs element-wise +, -, *, and / """
 
 
 def np_elementwise(mat1, mat2):
