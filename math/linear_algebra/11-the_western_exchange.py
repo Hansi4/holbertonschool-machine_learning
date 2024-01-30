@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-""" defines function that calculates the shape of matrix """
+""" a script that transposes matrix """
 
 
 def np_transpose(matrix):
-    """ transposes matrix """
-matrix = np.array([[1, 2], [3, 4]])
-numpy.ndarray = np_transpose(matrix)
-    return numpy.ndarray
+    """ a function that transposes matrix """
+    return matrix.transpose() 
+    
