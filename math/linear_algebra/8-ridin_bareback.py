@@ -7,7 +7,7 @@ def mat_mul(mat1, mat2):
     mat1_rows, mat1_columns = len(mat1), len(mat1[0])
     mat2_rows, mat2_columns = len(mat2), len(mat2[0])
 
-    if mat1_columns != mat2_rows
+    if mat1_columns != mat2_rows:
         return None
     
     result = []
