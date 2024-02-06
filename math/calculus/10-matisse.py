@@ -16,4 +16,6 @@ def poly_derivative(poly):
         if power == 1:
             derivative = []
         derivative.append(power * coefficient)
+    while derivative[-1] == 0 and len(derivative) > 1:
+        derivative = derivative[:-1]
     return derivative
