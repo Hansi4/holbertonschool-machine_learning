@@ -4,11 +4,8 @@
 
 def poly_integral(poly, C=0):
     """ A function that calculates the integral of a polynomial """
-    if type(poly) is not list or len(poly) == 0:
+    if not isinstance(C, int) or not isinstance(poly, list) or len(poly) == 0:
         return None
-    for C in poly:
-        if type(C) is not int:
-            return None
     integral = [C]
     for power, coefficient in enumerate(poly):
         if (coefficient % (power + 1)) == 0:
