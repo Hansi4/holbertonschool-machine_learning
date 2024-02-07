@@ -19,4 +19,3 @@ def poly_derivative(poly):
     while derivative[-1] == 0 and len(derivative) > 1:
         derivative = derivative[:-1]
     return derivative
-
