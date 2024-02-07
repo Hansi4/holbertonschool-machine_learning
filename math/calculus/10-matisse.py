@@ -9,7 +9,7 @@ def poly_derivative(poly):
     for coeff in poly:
         if type(coeff) is not int:
             return None
-    
+
     for power, coefficient in enumerate(poly):
         if power == 0:
             derivative = [0]
