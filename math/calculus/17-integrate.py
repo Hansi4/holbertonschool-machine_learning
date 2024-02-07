@@ -9,7 +9,7 @@ def poly_integral(poly, C=0):
     for C in poly:
         if type(C) is not int:
             return None
-
+        integral = [C]
     for power, coefficient in enumerate(poly):
         if (coefficient % (power + 1)) == 0:
             new_coefficient = coefficient // (power + 1)
