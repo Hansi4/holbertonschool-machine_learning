@@ -44,3 +44,15 @@ class Exponential:
         e = 2.7182818285
         return ((1 / (self.stddev * ((2 * π) ** 0.5))) *
                 (e ** (-0.5 * ((x - self.mean) / self.stddev) ** 2)))
+
+    def cdf(self, x):
+        """ Calculates the value of the CDF for a given x-value """
+        mean = self.mean
+        stddev = self.stddev
+        pi = 3.1415926536
+        value = (x - mean) / (stddev * (2 ** (1 / 2)))
+        erf = value - ((value ** 3) / 3) + ((value ** 5) / 10)
+        erf = erf - ((value ** 7) / 42) + ((value ** 9) / 216)
+        erf *= (2 / (pi ** (1 / 2)))
+        cdf = (1 / 2) * (1 + erf)
+        return cdf
