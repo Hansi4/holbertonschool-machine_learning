@@ -35,12 +35,12 @@ class Exponential:
         return z * self.stddev + self.mean
 
     def pdf(self, x):
-        """calculates the value of the PDF for a given x-value """
-        mean = self.mean
-        stddev = self.stddev
+        """
+        calculates the value of the pdf of a given x-value
+        :param x: the x-value
+        :return: pdf value for x
+        """
+        π = 3.1415926536
         e = 2.7182818285
-        pi = 3.1415926536
-        power = -0.5 * (self.z_score(x) ** 2)
-        coefficient = 1 / (stddev * ((2 * pi) ** (1 / 2)))
-        pdf = coefficient * (e ** power)
-        return pdf
+        return ((1 / (self.stddev * ((2 * π) ** 0.5))) *
+                (e ** (-0.5 * ((x - self.mean) / self.stddev) ** 2)))
