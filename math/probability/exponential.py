@@ -4,7 +4,6 @@
 
 class Exponential:
     """ Class Exponential that represents an exponential distribution """
-
     def __init__(self, data=None, lambtha=1.):
         """ represents an exponential distribution """
         self.lambtha = float(lambtha)
