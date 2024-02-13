@@ -37,12 +37,20 @@ class Binomial:
             k = int(k)
         if (k < 0):
             return 0
-        e = 2.7182818285
-        lambtha = self.lambtha
-        factorial = 1
+        p = self.p
+        n = self.n
+        q = (1 - p)
+        n_factorial = 1
+        for i in range(n):
+            n_factorial *= (i + 1)
+        k_factorial = 1
         for i in range(k):
-            factorial *= (i + 1)
-        pmf = ((e ** -lambtha) * (lambtha ** k)) / factorial
+            k_factorial *= (i + 1)
+        nk_factorial = 1
+        for i in range(n - k):
+            nk_factorial *= (i + 1)
+        binomial = n_factorial / (k_factorial * nk_factorial)
+        pmf = binomial * (p ** k) * (q ** (n - k))
         return pmf
 
     def cdf(self, k):
