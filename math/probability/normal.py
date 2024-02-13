@@ -41,8 +41,8 @@ class Exponential:
         mean   = self.mean
         stddev = self.stddev
 
-        coefficient = 1 / (stddev * ( (2 * pi) ** (1/2)))
         power = -0.5 * (self.z_score(x) ** 2)
+        coefficient = 1 / (stddev * ( (2 * pi) ** (1/2)))
         
         pdf = coefficient * (e ** power)
         return pdf
