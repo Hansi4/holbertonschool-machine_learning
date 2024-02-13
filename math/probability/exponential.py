@@ -8,15 +8,14 @@ class Exponential:
     def __init__(self, data=None, lambtha=1.):
         """ represents an exponential distribution """
         self.lambtha = float(lambtha)
-        if data is None:
-            if self.lambtha < 0:
-                raise ValueError("lambtha must be a positive value")
-        else:
+        if self.lambtha <= 0:
+            raise ValueError("lambtha must be a positive value")
+        if data is not None:
             if type(data) is not list:
-                raise TypeError("data must be list")
+                raise TypeError("data must be a list")
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
-            self.lambtha = float(len(data) / sum(data))
+            self.lambtha = float(sum(data)) / len(data)
 
     def pdf(self, x):
         """ Calculates the value of the PDF for a given time period """
