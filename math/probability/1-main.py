@@ -8,5 +8,5 @@ data = np.random.poisson(5., 100).tolist()
 p1 = Poisson(data)
 print('P(9):', p1.pmf(9))
 
-p2 = Poisson(lambtha=5)
+p2 = Poisson()
 print('P(9):', p2.pmf(9))
