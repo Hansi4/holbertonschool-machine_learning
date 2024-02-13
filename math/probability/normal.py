@@ -36,13 +36,11 @@ class Exponential:
 
     def pdf(self, x):
         """ Why calculate pdf if numpy already does it for us??? """
-        pi     = 3.1415926536
-        e      = 2.7182818285
         mean   = self.mean
         stddev = self.stddev
-
+        pi     = 3.1415926536
+        e      = 2.7182818285
         power = -0.5 * (self.z_score(x) ** 2)
-        coefficient = 1 / (stddev * ( (2 * pi) ** (1/2)))
-        
+        coefficient = 1 / (stddev * ((2 * pi) ** (1/2)))
         pdf = coefficient * (e ** power)
         return pdf
