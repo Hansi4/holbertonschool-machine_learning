@@ -25,3 +25,23 @@ class Exponential:
                     summation += (x - mean) ** 2
                 stddev = (summation / len(data)) ** (1/2)
                 self.stddev = stddev
+
+    def z_score(self, x):
+        """ """
+        return float((x - self.mean) / self.stddev)
+
+    def x_value(self, z):
+        """ """
+        return z * self.stddev + self.mean
+
+    def pdf(self, x):
+        """ Why calculate pdf if numpy already does it for us??? """
+        pi     = 3.1415926536
+        e      = 2.7182818285
+        mean   = self.mean
+        stddev = self.stddev
+
+        coefficient = 1 / (stddev * (2 * pi) ** (1/2))
+        power = -0.5 * (self.z_score(x) ** 2)
+        return coefficient * (e ** power)
+
