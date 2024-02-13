@@ -18,17 +18,3 @@ class Exponential:
                 raise ValueError("data must contain multiple values")
             lambtha = float(len(data) / sum(data))
             self.lambtha = lambtha
-
-    def pdf(self, x):
-        """ Calculates the value of the PDF for a given time period """
-        if type(k) is not int:
-            k = int(k)
-        if (k < 0):
-            return 0
-        e = 2.7182818285
-        lambtha = self.lambtha
-        factorial = 1
-        for i in range(k):
-            factorial *= (i + 1)
-        pmf = ((e ** -lambtha) * (lambtha ** k)) / factorial
-        return pmf
