@@ -2,6 +2,8 @@
 """ that calculates the intersection of obtaining
 this data with the various hypothetical probabilities """
 
+import numpy as np
+
 
 def intersection(x, n, P, Pr):
     """ a 1D numpy.ndarray containing the intersection
