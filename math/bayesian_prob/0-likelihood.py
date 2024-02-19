@@ -18,4 +18,4 @@ def likelihood(x, n, P):
         raise TypeError("P must be a 1D numpy.ndarray")
     if not np.all((P >= 0) & (P <= 1)):
         raise ValueError("All values in P must be in the range [0, 1]")
-    
+    likelihoods = np.array([np.math.comb(n, x) * p**x * (1 - p)**(n - x) for p in P])
