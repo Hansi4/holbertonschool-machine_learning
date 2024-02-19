@@ -18,6 +18,6 @@ def likelihood(x, n, P):
         raise TypeError("P must be a 1D numpy.ndarray")
     if not np.all((P >= 0) & (P <= 1)):
         raise ValueError("All values in P must be in the range [0, 1]")
-    binomial_coefficient = np.math.comb(n, x)
+    binomial_coefficient = np.math(n, x)
     likelihoods = binomial_coefficient * np.power(P, x) * np.power(1 - P, n - x)
     return likelihoods
