@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" that calculates the likelihood of 
+""" that calculates the likelihood of
 obtaining this data given various
 hypothetical probabilities of developing severe side effects """
 
@@ -7,7 +7,8 @@ import numpy as np
 
 
 def likelihood(x, n, P):
-    """ returns a 1D numpy.ndarray containing the likelihood of obtaining 
+    """ returns a 1D numpy.ndarray containing
+    the likelihood of obtaining
     the data, x and n, for each probability in P, respectively """
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
