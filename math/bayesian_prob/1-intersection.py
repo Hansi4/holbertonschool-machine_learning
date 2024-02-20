@@ -11,7 +11,8 @@ def intersection(x, n, P, Pr):
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
     if not isinstance(x, int) or int(x) < 0:
-        raise ValueError("x must be an integer that is greater than or equal to 0")
+        raise ValueError(
+            "x must be an integer that is greater than or equal to 0")
     if int(x) > n:
         raise ValueError("x cannot be greater than n")
     if not isinstance(P, np.ndarray) or P.ndim != 1:
@@ -24,3 +25,10 @@ def intersection(x, n, P, Pr):
         raise ValueError("All values in Pr must be in the range [0, 1]")
     if not np.isclose(np.sum(Pr), 1):
         raise ValueError("Pr must sum to 1")
+    
+    factorial = np.math.factorial
+    fact_coefficient = factorial(n) / (factorial(x) * factorial(n-x))
+    likelihood = fact_coefficient * (P ** x) * ((1 - P) ** (n - x))
+
+    intersection = likelihood * Pr
+    return intersection
