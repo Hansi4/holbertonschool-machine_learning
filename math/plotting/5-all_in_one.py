@@ -58,7 +58,7 @@ ax4.set_ylim((0, 1))
 
 ax5 = fig.add_subplot(3, 1, 3)
 ax5.hist(student_grades,
-         bins=[el for el in range(1, 101, 10)],
+         bins=[el for el in range(0, 101, 10)],
          edgecolor='black')
 ax5.set_xlabel('Grades', fontsize='x-small')
 ax5.set_ylabel('Number of Students', fontsize='x-small')
@@ -66,6 +66,7 @@ ax5.set_title("Project A", fontsize='x-small')
 ax5.set_xlim((0, 100))
 ax5.set_xticks(np.arange(0, 101, 10))
 ax5.set_ylim((0, 30))
+ax5.set_xticks(np.arange(0, 101, 10))
 
 plt.suptitle("All in One")
 plt.tight_layout()
