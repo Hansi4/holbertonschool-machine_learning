@@ -5,34 +5,25 @@ import matplotlib.pyplot as plt
 np.random.seed(5)
 fruit = np.random.randint(0, 20, (4,3))
 
-# your code here
+fruit = np.array([[10, 15, 7],
+                  [5, 8, 12],
+                  [12, 10, 5],
+                  [7, 10, 15]])
 
-people = (
-    "Farrah",
-    "Fred",
-    "Felicia",
-)
-fruit_counts = {
-    "apples": np.array([70, 31, 58]),
-    "bananas": np.array([82, 37, 66]),
-    "oranges": np.array([94, 43, 74]),
-    "peaches": np.array([106, 49, 82]),
-}
-width = 0.5
-index = np.arange(len(people))
+colors = ['red', 'yellow', '#ff8000', '#ffe5b4']
+fruits = ['apples', 'bananas', 'oranges', 'peaches']
+persons = ['Farrah', 'Fred', 'Felicia']
 
+# Stacked bar plot
 fig, ax = plt.subplots()
-bottom = np.zeros(3)
 
-for boolean, fruit_count in fruit_counts.items():
-    p = ax.bar(people, fruit_count, width, label=boolean, bottom=bottom)
-    bottom += fruit_count
+for i in range(len(fruit)):
+    bottom = np.sum(fruit[:i], axis=0) if i > 0 else 0
+    ax.bar(persons, fruit[i], bottom=bottom, label=fruits[i], color=colors[i], width=0.5)
 
 ax.set_ylabel('Quantity of Fruit')
-ax.set_xticks(index)
-ax.set_xticklabels(people)
-ax.set_yticks(np.arange(0, 81, 10))
 ax.set_title("Number of Fruit per Person")
-ax.legend(loc="upper right")
-
+ax.legend()
+ax.set_ylim(0, 80)
+ax.set_yticks(np.arange(0, 81, 10))
 plt.show()
