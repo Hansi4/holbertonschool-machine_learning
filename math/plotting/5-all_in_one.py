@@ -45,6 +45,7 @@ ax3.set_ylabel('Fraction Remaining', fontsize='x-small')
 ax3.set_title("Exponential Decay of C-14", fontsize='x-small')
 ax3.set_yscale("log")
 ax3.set_xlim((0, 28650))
+ax3.set_xticks(np.arange(0, 30000, 10000))
 
 ax4 = fig.add_subplot(3, 2, 4)
 ax4.plot(x3, y31, 'r--', label='C-14')
