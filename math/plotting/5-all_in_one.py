@@ -26,7 +26,7 @@ y32 = np.exp((r3 / t32) * x3)
 np.random.seed(5)
 student_grades = np.random.normal(68, 15, 50)
 
-fig = plt.figure()
+fig = plt.figure(figsize=(8, 6))
 
 ax1 = fig.add_subplot(3, 2, 1)
 ax1.plot(y0, 'r-')
@@ -65,7 +65,6 @@ ax5.set_xlabel('Grades', fontsize='x-small')
 ax5.set_ylabel('Number of Students', fontsize='x-small')
 ax5.set_title("Project A", fontsize='x-small')
 ax5.set_xlim((0, 100))
-ax5.set_xticks(np.arange(0, 101, 10))
 ax5.set_ylim((0, 30))
 ax5.set_xticks(np.arange(0, 101, 10))
 
