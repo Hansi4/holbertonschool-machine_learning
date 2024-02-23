@@ -37,6 +37,8 @@ ax2.scatter(x1, y1, c='m')
 ax2.set_xlabel('Height (in)', fontsize='x-small')
 ax2.set_ylabel('Weight (lbs)', fontsize='x-small')
 ax2.set_title("Men's Height vs Weight", fontsize='x-small')
+ax2.set_xlim((55, 82))
+ax2.set_xticks(np.arange(60, 81, 10))
 
 ax3 = fig.add_subplot(3, 2, 3)
 ax3.plot(x2, y2)
@@ -56,6 +58,7 @@ ax4.set_title("Exponential Decay of Radioactive Elements", fontsize='x-small')
 ax4.legend()
 ax4.set_xlim((0, 20000))
 ax4.set_ylim((0, 1))
+ax4.set_yticks(np.arange(0, 1.5, 0.5))
 
 ax5 = fig.add_subplot(3, 1, 3)
 ax5.hist(student_grades,
