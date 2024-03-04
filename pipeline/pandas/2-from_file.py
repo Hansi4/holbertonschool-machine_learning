@@ -7,6 +7,6 @@ import pandas as pd
 
 def from_file(filename, delimiter):
     """ A function that loads data from a file as a pd.DataFrame """
-    data = pd.read_csv(filename, delimiter='\t')
+    data = pd.read_csv(filename, delimiter=delimiter)
     df = pd.DataFrame(data)
     return df
