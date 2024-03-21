@@ -3,7 +3,6 @@
 
 import numpy as np
 
-
 class Neuron:
     def __init__(self, nx):
         """ that defines a single neuron performing binary classification """
@@ -12,16 +11,16 @@ class Neuron:
         if nx < 1:
             raise ValueError("nx must be a positive integer")
     
-        self.__W = np.random.randn(1, nx)
-        self.__b = 0
-        self.__A = 0
+        self.W = np.random.randn(nx)
+        self.b = 0
+        self.A = 0
 
     
     def W(self):
-        return self.__W
+        return self.W
 
     def b(self):
-        return self.__b
+        return self.b
 
     def A(self):
-        return self.__A
+        return self.A
