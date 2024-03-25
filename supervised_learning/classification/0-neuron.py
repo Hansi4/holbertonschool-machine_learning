@@ -1,26 +1,20 @@
 #!/usr/bin/env python3
-""" that defines a single neuron performing binary classification """
+""" 
+Neuron class that defines a single neuron performing binary classification 
+"""
+
 
 import numpy as np
 
+
 class Neuron:
+    """ A single neuron performing binary classification """
     def __init__(self, nx):
-        """ that defines a single neuron performing binary classification """
+        """ Class constructor """
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")
         if nx < 1:
             raise ValueError("nx must be a positive integer")
-    
-        self.W = np.random.randn(nx)
+        self.W = np.random.randn(1, nx)
         self.b = 0
         self.A = 0
-
-    
-    def W(self):
-        return self.W
-
-    def b(self):
-        return self.b
-
-    def A(self):
-        return self.A
