@@ -35,7 +35,7 @@ class Neuron:
         return self.__A
 
     def forward_prop(self, X):
-        """ A """
+        """ Calculates the forward propagation of the neuron """
         z = np.matmul(self.W, X) + self.b
         self.__A = 1 / (1 + np.exp(-z))
-        return self.__A
+        return self.A
