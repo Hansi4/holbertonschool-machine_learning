@@ -42,7 +42,7 @@ class NeuralNetwork:
     def A1(self):
         """ Get method for property activation function """
         return self.__A1
-    
+
     @property
     def W2(self):
         """ Get method for property Weights """
