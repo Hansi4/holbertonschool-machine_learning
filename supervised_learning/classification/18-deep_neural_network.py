@@ -63,4 +63,4 @@ class DeepNeuralNetwork:
 
             self.cache["A{}".format(index + 1)] = A 
 
-            return A, self.cache
+        return A, self.cache
