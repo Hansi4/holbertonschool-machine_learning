@@ -23,11 +23,12 @@ class DeepNeuralNetwork:
         previous = nx
 
         for index, layer in enumerate(layers, 1):
-            if type(layer) is not list or layer < 0:
+            if type(layer) is not int or layer < 0:
                 raise TypeError("layers must be a list of positive integers")
-            
+
             weights["b{}".format(index)] = np.zeros((layer, 1))
-            weights["W{}".format(index)] = (np.random.randn(layer, previous) * np.sqrt(2 / previous))
+            weights["W{}".format(index)] = (
+                np.random.randn(layer, previous) * np.sqrt(2 / previous))
             previous = layer
 
         self.L = len(layers)
