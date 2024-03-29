@@ -9,6 +9,7 @@ import numpy as np
 
 class Neuron:
     """ A single neuron performing binary classification """
+
     def __init__(self, nx):
         """ Class constructor """
         if not isinstance(nx, int):
@@ -21,17 +22,17 @@ class Neuron:
 
     @property
     def W(self):
-        """ Get method for property Weights """
+        """ Get method for the private instance attribute __W """
         return self.__W
 
     @property
     def b(self):
-        """ Get method for property Bias """
+        """ Get method for the private instance attribute __b """
         return self.__b
 
     @property
     def A(self):
-        """ Get method for property activation function """
+        """ Get method for the private instance attribute __A """
         return self.__A
 
     def forward_prop(self, X):
@@ -52,12 +53,12 @@ class Neuron:
         A = self.forward_prop(X)
         cost = self.cost(Y, A)
         prediction = np.where(A >= 0.5, 1, 0)
-        return [prediction, cost]
+        return (prediction, cost)
 
     def gradient_descent(self, X, Y, A, alpha=0.05):
         """ Calculates one pass of gradient descent on the neuron """
         m = Y.shape[1]
-        dz = A - Y
+        dz = (A - Y)
         d__W = (1/m) * (np.matmul(X, dz.transpose())).transpose()
         d__b = (1/m) * (np.sum(dz))
 
@@ -74,4 +75,31 @@ class Neuron:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
-        
+
+        if graph:
+            import matplotlib.pyplot as plt
+            x_points = np.arange(0, iterations + 1, step)
+            points = []
+
+        for itr in range(iterations):
+            A = self.forward_prop(X)
+            if verbose and itr % step == 0:
+                cost = self.cost(Y, A)
+                print(f"Cost after {itr} iterations: {cost}")
+            if graph and itr % step == 0:
+                points.append(self.cost(Y, A))
+            self.gradient_descent(X, Y, A, alpha)
+
+        if verbose:
+            cost = self.cost(Y, A)
+            print(f"Cost after {iterations} iterations: {cost}")
+
+        if graph:
+            points.append(self.cost(Y, A))
+            plt.plot(x_points, points, 'b')
+            plt.xlabel("Iteration")
+            plt.ylabel("Cost")
+            plt.title("Training Cost")
+            plt.show()
+
+        return self.evaluate(X, Y)
