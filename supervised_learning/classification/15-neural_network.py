@@ -9,8 +9,8 @@ import numpy as np
 
 
 class NeuralNetwork:
-    """ Defines a neural network with one
-    hidden layer performing binary classification """
+    """ A single neuron performing binary classification """
+    
     def __init__(self, nx, nodes):
         """ Class constructor """
         if not isinstance(nx, int):
@@ -21,6 +21,7 @@ class NeuralNetwork:
             raise TypeError("nodes must be an integer")
         if nodes < 1:
             raise ValueError("nodes must be a positive integer")
+        
         self.__W1 = np.random.randn(nodes, nx)
         self.__b1 = np.zeros((nodes, 1))
         self.__A1 = 0
@@ -30,32 +31,32 @@ class NeuralNetwork:
 
     @property
     def W1(self):
-        """ Get method for property Weights """
+        """ Get method for property W1 """
         return self.__W1
 
     @property
     def b1(self):
-        """ Get method for property Bias """
+        """ Get method for property b1 """
         return self.__b1
 
     @property
     def A1(self):
-        """ Get method for property activation function """
+        """ Get method for property A1 """
         return self.__A1
 
     @property
     def W2(self):
-        """ Get method for property Weights """
+        """ Get method for property W2 """
         return self.__W2
 
     @property
     def b2(self):
-        """ Get method for property Bias """
+        """ Get method for property b2 """
         return self.__b2
 
     @property
     def A2(self):
-        """ Get method for property activation function """
+        """ Get method for property A2 """
         return self.__A2
 
     def forward_prop(self, X):
@@ -78,11 +79,12 @@ class NeuralNetwork:
         A1, A2 = self.forward_prop(X)
         cost = self.cost(Y, A2)
         prediction = np.where(A2 >= 0.5, 1, 0)
-        return [prediction, cost]
+        return (prediction, cost)
 
     def gradient_descent(self, X, Y, A1, A2, alpha=0.05):
-        """ Calculates one pass of gradient descent on the neural network """
+        """ Gradient descent algorithm for neural network """
         m = Y.shape[1]
+
         dz2 = (A2 - Y)
         d__W2 = (1 / m) * (np.matmul(dz2, A1.transpose()))
         d__b2 = (1 / m) * (np.sum(dz2, axis=1, keepdims=True))
@@ -96,8 +98,9 @@ class NeuralNetwork:
         self.__W2 = self.W2 - (alpha * d__W2)
         self.__b2 = self.b2 - (alpha * d__b2)
 
-    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
-        """ Trains the neural network """
+    def train(self, X, Y, iterations=5000, alpha=0.05,
+              verbose=True, graph=True, step=100):
+        """ Trains the neural network and updates __W, __b, and __A """
         if type(iterations) is not int:
             raise TypeError("iterations must be an integer")
         if iterations <= 0:
@@ -106,9 +109,14 @@ class NeuralNetwork:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
-
-        if graph is True:
-            points = np.arrange(0, iterations + 1, step)
+        if verbose or graph:
+            if type(step) is not int:
+                raise TypeError("step must be an integer")
+            if step <= 0 or step > iterations:
+                raise ValueError("step must be positive and <= iterations")
+        if graph:
+            import matplotlib.pyplot as plt
+            x_points = np.arange(0, iterations + 1, step)
             points = []
         for itr in range(iterations):
             A1, A2 = self.forward_prop(X)
