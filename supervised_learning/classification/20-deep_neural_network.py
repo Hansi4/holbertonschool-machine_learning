@@ -78,21 +78,3 @@ class DeepNeuralNetwork:
         cost = self.cost(Y, A)
         prediction = np.where(A >= 0.5, 1, 0)
         return [prediction, cost]
-
-
-        m = Y.shape[1]
-        back = {}
-
-        for index in range(self.L, 0, -1):
-
-            A = cache["A{}".format(index - 1)]
-            if index == self.L:
-                back["dz{}".format(index)] = cache["A{}".format(index)] - Y
-            else:
-                dz_prev = back["dz{}".format(index + 1)]
-                A_current = cache["A{}".format(index)]
-                back["dz{}".format(index)] = np.matmul(W_prev.transpose(), dz_prev) * (A_current) * (1 - A_current)
-
-            dz = back["dz{}".format(index)]
-            dW = (1 / m) * (np.matmul(dz, A.transpose()))
-            db = 
