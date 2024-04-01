@@ -173,5 +173,4 @@ class DeepNeuralNetwork:
                 obj = pickle.load(f)
                 return obj
         except FileNotFoundError:
-            print("Filename does not exist")
             return None
