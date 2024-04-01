@@ -149,7 +149,7 @@ class DeepNeuralNetwork:
             plt.ylabel("cost")
             plt.title("Training Cost")
             plt.show()
-        return (self.evaluate(X, Y))
+        return self.evaluate(X, Y)
 
     def save(self, filename):
         """ Saves the instance object to a file in pickle format """
@@ -163,7 +163,7 @@ class DeepNeuralNetwork:
 
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
-            
+
     @staticmethod
     def load(filename):
         """ Loads a pickled DeepNeuralNetwork object from a file"""
