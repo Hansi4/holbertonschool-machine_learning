@@ -9,12 +9,12 @@ import numpy as np
 
 class DeepNeuralNetwork:
     """
-    Class that represents a Deep Neural Network
+    class that represents a Deep Neural Network
     """
 
     def __init__(self, nx, layers):
         """
-        Class constructor
+        class constructor
         """
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
