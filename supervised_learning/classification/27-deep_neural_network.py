@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Deep Neural Network performing binary classification
+DeepNeuralNetwork performing binary classification
 """
 
 
@@ -9,7 +9,7 @@ import numpy as np
 
 class DeepNeuralNetwork:
     """
-    class that represents a Deep Neural Network
+    class that represents a deep neural network
     """
 
     def __init__(self, nx, layers):
@@ -42,48 +42,52 @@ class DeepNeuralNetwork:
     @property
     def L(self):
         """
-        Gets the private instance attribute __L
+        gets the private instance attribute __L
         """
         return (self.__L)
 
     @property
     def cache(self):
         """
-        Gets the private instance attribute __cache
+        gets the private instance attribute __cache
         """
         return (self.__cache)
 
     @property
     def weights(self):
         """
-        Gets the private instance attribute __weights
+        gets the private instance attribute __weights
         """
         return (self.__weights)
 
     def forward_prop(self, X):
         """
-        Calculates the forward propagation of the neuron
+            method calculate forward propagation of neural network
+
+            :param X: ndarray, shape(nx,m) input data
+
+            :return: output neural network and cache
         """
 
         # store X in A0
         if 'A0' not in self.__cache:
             self.__cache['A0'] = X
-        
+
         for i in range(1, self.__L + 1):
-            # First layer
+            # first layer
             if i == 1:
                 W = self.__weights["W{}".format(i)]
                 b = self.__weights["b{}".format(i)]
-                # Multiplication of weight and add bias
-                z = np.matmul(W, X) + b
-            else:  # Next layers
+                # multiplication of weight and add bias
+                Z = np.matmul(W, X) + b
+            else:  # next layers
                 W = self.__weights["W{}".format(i)]
                 b = self.__weights["b{}".format(i)]
                 X = self.__cache['A{}'.format(i - 1)]
                 Z = np.matmul(W, X) + b
-        
-            # Activation function :
-            # For last use softmax for multiclass
+
+            # activation function :
+            # for last use softmax for multiclass
             if i == self.__L:
                 exp_Z = np.exp(Z - np.max(Z, axis=0, keepdims=True))
                 self.__cache["A{}".format(i)] = (
@@ -92,35 +96,40 @@ class DeepNeuralNetwork:
                 self.__cache["A{}".format(i)] = 1 / (1 + np.exp(-Z))
 
         return self.__cache["A{}".format(i)], self.__cache
-            
+
     def cost(self, Y, A):
         """
-        Calculate cross-entropy cost for multiclass
+            Calculate cross-entropy cost for multiclass
         """
 
-        # Store m value
+        # store m value
         m = Y.shape[1]
 
-        # Calculate log loss function
+        # calculate log loss function
         log_loss = -(1 / m) * np.sum(Y * np.log(A))
-        
+
         return log_loss
 
     def evaluate(self, X, Y):
         """
-        Evaluates the neural network's predictions
+            Method to evaluate the network's prediction
+
+            :param X: ndarray shape(nx,m) contains input data
+            :param Y: ndarray shape (1,m) correct labels
+
+            :return: network's prediction and cost of the network
         """
-        
-        # Run forward propagation
+
+        # run forward propagation
         output, cache = self.forward_prop(X)
 
-        # Calculate cost
+        # calculate cost
         cost = self.cost(Y, output)
 
-        # Convert predicted proba to one-hot
+        # convert predicted proba to one-hot
         result = np.zeros_like(output)
 
-        # Label values
+        # label values
         result[np.argmax(output, axis=0), np.arange(output.shape[1])] = 1
 
         return result, cost
@@ -194,7 +203,7 @@ class DeepNeuralNetwork:
             plt.ylabel("cost")
             plt.title("Training Cost")
             plt.show()
-        return self.evaluate(X, Y)
+        return (self.evaluate(X, Y))
 
     def save(self, filename):
         """
