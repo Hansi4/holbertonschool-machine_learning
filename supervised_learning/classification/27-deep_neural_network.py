@@ -87,7 +87,7 @@ class DeepNeuralNetwork:
             if i == self.__L:
                 exp_Z = np.exp(Z - np.max(Z, axis=0, keepdims=True))
                 self.__cache["A{}".format(i)] = (
-                    exp_Z / np.sum(exp_Z, axis=0, keepdims=True))
+                        exp_Z / np.sum(exp_Z, axis=0, keepdims=True))
             else:
                 self.__cache["A{}".format(i)] = 1 / (1 + np.exp(-Z))
 
