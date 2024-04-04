@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-DeepNeuralNetwork performing binary classification
+Deep Neural Network performing binary classification
 """
 
 
@@ -9,12 +9,12 @@ import numpy as np
 
 class DeepNeuralNetwork:
     """
-    class that represents a deep neural network
+    Class that represents a Deep Neural Network
     """
 
     def __init__(self, nx, layers):
         """
-        class constructor
+        Class constructor
         """
         if type(nx) is not int:
             raise TypeError("nx must be an integer")
@@ -42,54 +42,88 @@ class DeepNeuralNetwork:
     @property
     def L(self):
         """
-        gets the private instance attribute __L
+        Gets the private instance attribute __L
         """
         return (self.__L)
 
     @property
     def cache(self):
         """
-        gets the private instance attribute __cache
+        Gets the private instance attribute __cache
         """
         return (self.__cache)
 
     @property
     def weights(self):
         """
-        gets the private instance attribute __weights
+        Gets the private instance attribute __weights
         """
         return (self.__weights)
 
     def forward_prop(self, X):
         """
-        calculates the forward propagation of the neuron
+        Calculates the forward propagation of the neuron
         """
-        self.__cache["A0"] = X
-        for index in range(self.L):
-            W = self.weights["W{}".format(index + 1)]
-            b = self.weights["b{}".format(index + 1)]
-            z = np.matmul(W, self.cache["A{}".format(index)]) + b
-            A = 1 / (1 + (np.exp(-z)))
-            self.__cache["A{}".format(index + 1)] = A
-        return (A, self.cache)
 
+        # store X in A0
+        if 'A0' not in self.__cache:
+            self.__cache['A0'] = X
+        
+        for i in range(1, self.__L + 1):
+            # First layer
+            if i == 1:
+                W = self.__weights["W{}".format(i)]
+                b = self.__weights["b{}".format(i)]
+                # Multiplication of weight and add bias
+                z = np.matmul(W, X) + b
+            else:  # Next layers
+                W = self.__weights["W{}".format(i)]
+                b = self.__weights["b{}".format(i)]
+                X = self.__cache['A{}'.format(i - 1)]
+                Z = np.matmul(W, X) + b
+        
+            # Activation function :
+            # For last use softmax for multiclass
+            if i == self.__L:
+                exp_Z = np.exp(Z - np.max(Z, axis=0, keepdims=True))
+                self.__cache["A{}".format(i)] = (
+                    exp_Z / np.sum(exp_Z, axis=0, keepdims=True))
+            else:
+                self.__cache["A{}".format(i)] = 1 / (1 + np.exp(-Z))
+
+        return self.__cache["A{}".format(i)], self.__cache
+            
     def cost(self, Y, A):
         """
-        calculates the cost of the model using logistic regression
+        Calculate cross-entropy cost for multiclass
         """
+
+        # Store m value
         m = Y.shape[1]
-        m_loss = np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A)))
-        cost = (1 / m) * (-(m_loss))
-        return (cost)
+
+        # Calculate log loss function
+        log_loss = -(1 / m) * np.sum(Y * np.log(A))
+        
+        return log_loss
 
     def evaluate(self, X, Y):
         """
-        evaluates the neural network's predictions
+        Evaluates the neural network's predictions
         """
-        A, cache = self.forward_prop(X)
-        cost = self.cost(Y, A)
-        prediction = np.where(A >= 0.5, 1, 0)
-        return (prediction, cost)
+        
+        # Run forward propagation
+        output, cache = self.forward_prop(X)
+
+        # Calculate cost
+        cost = self.cost(Y, output)
+
+        # Convert predicted proba to one-hot
+        result = np.zeros_like(output)
+
+        # Label values
+        result[np.argmax(output, axis=0), np.arange(output.shape[1])] = 1
+
+        return result, cost
 
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
