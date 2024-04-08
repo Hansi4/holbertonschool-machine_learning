@@ -14,6 +14,6 @@ loss and accuracy metrics """
 
     Adam_optimizer = K.optimizers.Adam(learning_rate=alpha, beta_1=beta1, beta_2=beta2)
 
-    network.compile(optimizer='Adam',
+    network.compile(optimizer=Adam_optimizer,
               loss='sparse_categorical_crossentropy',
              metrics=['accuracy'])
