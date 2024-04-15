@@ -6,7 +6,8 @@ import tensorflow.compat.v1 as tf
 
 
 def create_RMSProp_op(loss, alpha, beta2, epsilon):
-    """ A python function that creates the training operation for a neural network
+    """ A python function that creates the
+    training operation for a neural network
     in tensorflow using the RMSProp optimization algorithm """
 
     optimizer = tf.train.RMSPropOptimizer(
