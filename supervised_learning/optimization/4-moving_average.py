@@ -15,7 +15,7 @@ def moving_average(data, beta):
         # update weight average
         w = beta * w + (1 - beta) * d
         # bias correction
-        w_new = w / (i - beta**(i+1))
+        w_new = w / (1 - beta **(i + 1))
         # add moving average to list
         m_av.append(w_new)
 
