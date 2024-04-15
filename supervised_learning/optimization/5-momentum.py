@@ -12,7 +12,7 @@ def update_variables_momentum(alpha, beta1, var, grad, v):
 
     # formula for momentum
     dW = beta1 * v + (1 - beta1) * grad
-    
+
     # update variable
     var_new = var - dW * alpha
 
