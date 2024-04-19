@@ -7,7 +7,8 @@ import numpy as np
 
 
 def create_layer(prev, n, activation):
-    """ A python function that creates layer for a neural network in tensorflow """
+    """ A python function that creates
+    layer for a neural network in tensorflow """
 
     # set initialization to He et. al
     initializer = tf.keras.initializers.VarianceScaling(mode='fan_avg')
@@ -17,7 +18,7 @@ def create_layer(prev, n, activation):
                                 activation=activation,
                                 kernel_initializer=initializer,
                                 name="layer")
-    
+
     # apply layer to input
     output = new_layer(prev)
 
@@ -205,7 +206,6 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001,
         decay_steps=1,
         global_step=global_step,
         staircase=True)
-
 
     train_op = create_train_op(loss, alpha, beta1, beta2, epsilon)
     tf.add_to_collection('train_op', train_op)
