@@ -6,6 +6,7 @@ import numpy as np
 sensitivity = __import__('1-sensitivity').sensitivity
 precision = __import__('2-precision').precision
 
+
 def f1_score(confusion):
     """ A python function that calculates the
     F1 score of a confusion matrix """
@@ -16,6 +17,7 @@ def f1_score(confusion):
     rec_value = sensitivity(confusion)
 
     for i in range(classes):
-        f_one_matrix[i] = 2 * prec_value[i] * rec_value[i] / (prec_value[i] + rec_value[i])
+        f_one_matrix[i] =
+        2 * prec_value[i] * rec_value[i] / (prec_value[i] + rec_value[i])
 
     return f_one_matrix
