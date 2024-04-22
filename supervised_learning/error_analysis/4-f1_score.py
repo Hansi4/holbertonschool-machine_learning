@@ -18,6 +18,6 @@ def f1_score(confusion):
 
     for i in range(classes):
         f_one_matrix[i] = (2 * (prec_value[i] * rec_value[i]) /
-                          (prec_value[i] + rec_value[i]))
+                           (prec_value[i] + rec_value[i]))
 
     return f_one_matrix
