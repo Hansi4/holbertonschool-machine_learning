@@ -12,7 +12,7 @@ def l2_reg_cost(cost, lambtha, weights, L, m):
     reg_term = 0
     for i in range(1, L+1):
         W_i = weights['W' + str(i)]
-        reg_term = np.sum(np.square(W_i))
+        reg_term += np.sum(np.square(W_i))
 
 
     cost_L2 = cost + (lambtha / (2*m)) * reg_term
