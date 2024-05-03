@@ -10,7 +10,7 @@ def dropout_create_layer(prev, n, activation, keep_prob):
     a layer of a neural network using dropout """
 
     dropout_layer = tf.compat.v1.layers.Dropout(rate=keep_prob)
-    
+
     initializer = tf.keras.initializers.VarianceScaling(scale=2.0,
                                                         mode='fan_avg')
     new_layer = (
