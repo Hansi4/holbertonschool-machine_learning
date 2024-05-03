@@ -9,11 +9,8 @@ def l2_reg_cost(cost):
     """ A python function that calculates the cost
     of a neural network with L2 regularization """
 
-    reg_term = 0
-    for i in range(1, L+1):
-        W_i = weights['W' + str(i)]
-        reg_term += np.sum(np.square(W_i))
+    regularization_L2 = tf.compat.v1.losses.get_regularization_losses()
 
-    cost_L2 = cost + (lambtha / (2*m)) * reg_term
+    cost_L2reg = cost + regularization_L2
 
-    return cost_L2
+    return cost_L2reg
