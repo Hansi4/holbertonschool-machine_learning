@@ -17,7 +17,7 @@ def l2_reg_create_layer(prev, n, activation, lambtha):
                         kernel_initializer=initializer,
                         kernel_regularizer=tf.keras.regularizers.l2(lambtha),
                         name="layer"))
-    
+
     output = new_layer(prev)
 
     return output
