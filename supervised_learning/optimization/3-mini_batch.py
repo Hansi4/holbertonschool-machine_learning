@@ -1,17 +1,32 @@
 #!/usr/bin/env python3
-""" Mini-Batch """
-
+"""
+   Mini-batch
+"""
 
 import tensorflow.compat.v1 as tf
 
 shuffle_data = __import__('2-shuffle_data').shuffle_data
 
 
-def train_mini_batch(X_train, Y_train, X_valid, Y_valid,
-                     batch_size=32, epochs=5,
-                     load_path="/tmp/model.ckpt", save_path="/tmp/model.ckpt"):
-    """ A python function that trains a loaded
-    neural network model using mini-batch gradient descent """
+def train_mini_batch(X_train, Y_train, X_valid, Y_valid, batch_size=32,
+                     epochs=5, load_path="/tmp/model.ckpt",
+                     save_path="/tmp/model.ckpt"):
+    """
+        Function trains a loaded neural network model using
+        mini-batch gradient descent
+
+        :param X_train: ndarray, shape(m,784), training data
+        :param Y_train: ndarray, shape(m,10), training labels
+        :param X_valid: ndarray, shape(m,784), validation data
+        :param Y_valid: ndarray, shape(m,10), validation labels
+        :param batch_size: number of data points in batch
+        :param epochs: number of times the training should pass
+               through the whole dataset
+        :param load_path: path from which to load the model
+        :param save_path: path to where save model after training
+
+        :return: path where model was saved
+    """
 
     # metagraph and restore session
     with tf.Session() as sess:
