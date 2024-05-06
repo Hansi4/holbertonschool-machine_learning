@@ -1,19 +1,29 @@
 #!/usr/bin/env python3
-""" Put it all together and what do you get? """
-
+"""
+   Builds, trains, saves NN model
+   using Adam optimization, mini-batch gradient descent,
+   learning rate decay, and batch normalization in TF
+"""
 
 import tensorflow.compat.v1 as tf
 import numpy as np
 
 
 def create_layer(prev, n, activation):
-    """ A python function that creates
-    layer for a neural network in tensorflow """
+    """
+        Method to create layer
+
+        :param prev: tensor output of previous layer
+        :param n: number of nodes in the layer to create
+        :param activation: activation function layer should use
+
+        :return: tensor output of the layer
+    """
 
     # set initialization to He et. al
     initializer = tf.keras.initializers.VarianceScaling(mode='fan_avg')
 
-    # create layer Dense with parameters
+    # create layer Dense with paramaters
     new_layer = tf.layers.Dense(n,
                                 activation=activation,
                                 kernel_initializer=initializer,
@@ -26,8 +36,16 @@ def create_layer(prev, n, activation):
 
 
 def create_batch_norm_layer(prev, n, activation):
-    """ A python function that creates a batch normalization
-    layer for a neural network in tensorflow """
+    """
+        Method that creates a batch normalization layer for a
+        NN in tf
+
+        :param prev: activated output of the previous layer
+        :param n: number of nodes in the layer to be created
+        :param activation: activation function for output layer
+
+        :return: tensor of activated output for the layer
+    """
     if activation is None:
         return create_layer(prev, n, activation)
 
@@ -155,51 +173,80 @@ def create_train_op(loss, alpha, beta1, beta2, epsilon):
 
 
 def shuffle_data(X, Y):
-    """ A python function that shuffles
-    the data points in two matrices the same way """
+    """
+        Function that shuffles the data points in two matrices the same way
+
+        :param X: ndarray, shape(m, nx) to shuffle
+        :param Y: ndarray, shape(m, ny) to shuffle
+
+        :return: shuffled X and Y matrices
+    """
     m = X.shape[0]
     permutted_index = np.random.permutation(m)
-
     X_shuffled = X[permutted_index]
     Y_shuffled = Y[permutted_index]
-
     return X_shuffled, Y_shuffled
 
 
-def model(Data_train, Data_valid, layers, activations, alpha=0.001,
-          beta1=0.9, beta2=0.999, epsilon=1e-8, decay_rate=1,
-          batch_size=32, epochs=5, save_path='/tmp/model.ckpt'):
-    """ A python function that builds, trains, and saves
-    a neural network model in tensorflow
-    using Adam optimization, mini-batch gradient descent,
-    learning rate decay, and batch normalization """
+def model(Data_train, Data_valid, layers, activations, alpha=0.001, beta1=0.9,
+          beta2=0.999, epsilon=1e-8, decay_rate=1, batch_size=32, epochs=5,
+          save_path='/tmp/model.ckpt'):
+    """
+        Function that builds, trains, saves a NN model in TF
+        using Adam optimizer, mini-batch GD,
+              Learning Rate decay, batch normalization
 
+        :param Data_train: tuple, training inputs, training labels
+        :param Data_valid: tuple, validation inputs, validation labels
+        :param layers: number of nodes in each layer
+        :param activations: list activation functions
+        :param alpha: learning rate
+        :param beta1: weight first moment Adam Opt
+        :param beta2: weight second moment Adam Opt
+        :param epsilon: small number
+        :param decay_rate: decay rate for inverse time of learning rate
+        :param batch_size: number of data points in mini-batch
+        :param epochs: number times training
+        :param save_path: path where model was saved
+
+        :return: saved model path
+    """
+    # get X_train, Y_train, X_valid, and Y_valid from Data_train and Data_valid
     X_train, Y_train = Data_train
     X_valid, Y_valid = Data_valid
 
+    # number of training examples (m) and
+    # number of features (nx) from input data
     m, nx = X_train.shape
-
+    # number of classes
     classes = Y_train.shape[1]
 
+    # initialize x, y and add them to collection
     x = tf.placeholder(tf.float32, shape=(None, nx))
     y = tf.placeholder(tf.float32, shape=(None, classes))
     tf.add_to_collection('x', x)
     tf.add_to_collection('y', y)
 
+    # initialize y_pred and add it to collection
     y_pred = forward_prop(x, layers, activations, epsilon)
     tf.add_to_collection('y_pred', y_pred)
 
+    # initialize loss and add it to collection
     loss = calculate_loss(y, y_pred)
     tf.add_to_collection('loss', loss)
 
+    # initialize accuracy and add it to collection
     accuracy = calculate_accuracy(y, y_pred)
     tf.add_to_collection('accuracy', accuracy)
 
+    # initialize global_step variable
+    # hint: not trainable
     global_step = tf.Variable(initial_value=0,
                               trainable=False,
                               dtype=tf.int32,
                               name='global_step')
 
+    # create "alpha" the learning rate decay operation in tensorflow
     alpha = tf.compat.v1.train.inverse_time_decay(
         learning_rate=alpha,
         decay_rate=decay_rate,
@@ -207,6 +254,8 @@ def model(Data_train, Data_valid, layers, activations, alpha=0.001,
         global_step=global_step,
         staircase=True)
 
+    # initizalize train_op and add it to collection
+    # hint: don't forget to add global_step parameter in optimizer().minimize()
     train_op = create_train_op(loss, alpha, beta1, beta2, epsilon)
     tf.add_to_collection('train_op', train_op)
     saver = tf.train.Saver()
