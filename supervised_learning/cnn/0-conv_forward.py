@@ -21,7 +21,7 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
 
     # output size
     output_height = int((h_prev - kh + 2 * ph) / sh + 1)
-    output_width = int((w_prev - kw + 2 * pw) / sw + 1)
+    output_width  = int((w_prev - kw + 2 * pw) / sw + 1)
 
     # initialize output
     convolved_images = np.zeros((m, output_height, output_width, c_new))
@@ -34,9 +34,10 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     for k in range(c_new):
         for h in range(output_height):
             for w in range(output_width):
-                image_zone = image_pad[:, h*sh: h*sh +kh,
-                                       w*sw : w*sw+kw, :]
-                convolved_images[:, h, w, k] = np.sum(image_zone * W[:, :, :, k], axis=(1, 2, 3))
+                image_zone = image_pad[:, h * sh: h * sh + kh,
+                                       w * sw : w * sw + kw, :]
+                convolved_images[:, h, w, k] = np.sum(image_zone * W[:, :, :, k],
+                                                      axis=(1, 2, 3))
 
     Z = convolved_images + b
     # apply activation function
