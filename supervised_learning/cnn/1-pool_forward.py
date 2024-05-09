@@ -16,6 +16,7 @@ def pool_forward(A_prev, kernel_shape, stride=(1, 1), mode='max'):
     # output size
     output_height = int((h_prev - kh) / sh + 1)
     output_width = int((w_prev - kw) / sw + 1)
+
     # initialize output
     pooled_img = np.zeros((m, output_height, output_width, c_prev))
 
