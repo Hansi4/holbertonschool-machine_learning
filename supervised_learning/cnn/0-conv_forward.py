@@ -21,14 +21,17 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
 
     # output size
     output_height = int((h_prev - kh + 2 * ph) / sh + 1)
-    output_width  = int((w_prev - kw + 2 * pw) / sw + 1)
+    output_width = int((w_prev - kw + 2 * pw) / sw + 1)
 
     # initialize output
     convolved_images = np.zeros((m, output_height, output_width, c_new))
 
     image_pad = np.pad(A_prev,
-                      ((0, 0), (ph, ph),
-                      (pw, pw), (0, 0)), mode = 'constant'     
+                      ((0, 0),
+                      (ph, ph),
+                      (pw, pw),
+                      (0, 0)),
+                      mode = 'constant'
                       )
                     
     for k in range(c_new):
