@@ -22,11 +22,11 @@ def pool_forward(A_prev, kernel_shape, stride=(1, 1), mode='max'):
 
     for i in range(output_height):
         for j in range(output_width):
-            image_zone = A_prev[:, i * sh : i * sh + kh,
-                                j * sw : j * sw + kw, :]
-        if mode == 'max':
-            pooled_img[:, i, j, :] = np.max(image_zone, axis=(1, 2))
-        elif mode == 'avg':
-            pooled_img[:, i, j, :] = np.average(image_zone, axis=(1, 2))
+            image_zone = A_prev[:, i * sh:i * sh + kh,
+                                j * sw:j * sw + kw, :]
+            if mode == 'max':
+                pooled_img[:, i, j, :] = np.max(image_zone, axis=(1, 2))
+            elif mode == 'avg':
+                pooled_img[:, i, j, :] = np.average(image_zone, axis=(1, 2))
 
     return pooled_img
