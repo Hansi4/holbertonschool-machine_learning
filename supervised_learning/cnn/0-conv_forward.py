@@ -16,12 +16,12 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     if padding == 'valid':
         ph, pw = 0, 0
     elif padding == 'same':
-        ph = int((((h_prev - 1) * sh + kh - h_prev) / 2))
-        pw = int((((w_prev - 1) * sw + kw - w_prev) / 2))
+        ph = int((((h_prev - 1) * sh + kh - h_prev)/2))
+        pw = int((((w_prev - 1) * sw + kw - w_prev)/2))
 
     # output size
     output_height = int((h_prev - kh + 2 * ph)/sh + 1)
-    output_width  = int((w_prev - kw + 2 * pw)/sw + 1)
+    output_width = int((w_prev - kw + 2 * pw)/sw + 1)
 
     # initialize output
     convolved_images = np.zeros((m, output_height, output_width, c_new))
