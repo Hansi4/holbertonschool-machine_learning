@@ -27,19 +27,16 @@ def conv_forward(A_prev, W, b, activation, padding="same", stride=(1, 1)):
     convolved_images = np.zeros((m, output_height, output_width, c_new))
 
     image_pad = np.pad(A_prev,
-                      ((0, 0),
-                      (ph, ph),
-                      (pw, pw),
-                      (0, 0)),
-                      mode = 'constant'
-                      )
-                    
+                      ((0, 0), (ph, ph),
+                       (pw, pw), (0, 0)), mode = 'constant')
+
     for k in range(c_new):
         for h in range(output_height):
             for w in range(output_width):
-                image_zone = image_pad[:, h * sh: h * sh + kh,
-                                       w * sw : w * sw + kw, :]
-                convolved_images[:, h, w, k] = np.sum(image_zone * W[:, :, :, k],
+                image_zone = image_pad[:, h * sh:h * sh + kh,
+                                       w * sw:w * sw + kw, :]
+                convolved_images[:, h, w, k] = np.sum(image_zone 
+                                                      * W[:, :, :, k],
                                                       axis=(1, 2, 3))
 
     Z = convolved_images + b
