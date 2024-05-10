@@ -28,5 +28,5 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                         mode='constant')
 
     db = np.sum(dZ, axis=(0, 1, 2), keepdims=True)
-    
+
     return dA, dW, db
