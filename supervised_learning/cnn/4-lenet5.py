@@ -9,83 +9,54 @@ def lenet5(x, y):
     """ A python function that builds a modified
     version of the LeNet-5 architecture using tensorflow """
 
-    # Convolutional layer 1
-    conv1 = tf.layers.Conv2D(
-        inputs=x,
-        filters=6,
-        kernel_size=(5, 5),
-        padding='same',
-        activation=tf.nn.relu,
-        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
-    )
+    # set initialization to He et. al
+    initializer = tf.keras.initializers.VarianceScaling(scale=2.0)
 
-    # Max pooling layer 1
-    pool1 = tf.layers.MaxPooling2D(
-        inputs=conv1,
-        pool_size=(2, 2),
-        strides=(2, 2)
-    )
-
-    # Convolutional layer 2
-    conv2 = tf.layers.Conv2D(
-        inputs=pool1,
-        filters=16,
-        kernel_size=(5, 5),
-        padding='valid',
-        activation=tf.nn.relu,
-        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
-    )
-
-    # Max pooling layer 2
-    pool2 = tf.layers.MaxPooling2D(
-        inputs=conv2,
-        pool_size=(2, 2),
-        strides=(2, 2)
-    )
-
-    # Flatten layer
+    # build layer
+    conv1 = tf.layers.Conv2D(filters=6,
+                             kernel_size=5,
+                             padding='same',
+                             kernel_initializer=initializer,
+                             activation='relu')(x)
+    pool1 = tf.layers.MaxPooling2D(pool_size=2,
+                                   strides=2)(conv1)
+    conv2 = tf.layers.Conv2D(filters=16,
+                             kernel_size=5,
+                             padding='valid',
+                             kernel_initializer=initializer,
+                             activation='relu')(pool1)
+    pool2 = tf.layers.MaxPooling2D(pool_size=2,
+                                   strides=2)(conv2)
+    # flatten layers to convert tensor multidim in vector unidirectional
     flat = tf.layers.Flatten()(pool2)
+    full1 = tf.layers.Dense(120,
+                            activation='relu',
+                            kernel_initializer=initializer)(flat)
+    full2 = tf.layers.Dense(84,
+                            activation='relu',
+                            kernel_initializer=initializer)(full1)
+    output = tf.layers.Dense(10,
+                             activation=None,
+                             kernel_initializer=initializer)(full2)
+    softmax = tf.nn.softmax(output)
 
-    # Fully connected layer 1
-    fc1 = tf.layers.Dense(
-        inputs=flat,
-        units=120,
-        activation=tf.nn.relu,
-        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
-    )
-
-    # Fully connected layer 2
-    fc2 = tf.layers.Dense(
-        inputs=fc1,
-        units=84,
-        activation=tf.nn.relu,
-        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
-    )
-
-    # Output layer
-    output = tf.layers.Dense(
-        inputs=fc2,
-        units=10,
-        activation=None,
-        kernel_initializer=tf.keras.initializers.VarianceScaling(scale=2.0)
-    )
-
-    # Softmax activation
-    softmax_output = tf.nn.softmax(output)
-
+    # calculate loss
     loss = tf.losses.softmax_cross_entropy(
-        onehot_labels = y,
-        logits = output
-    )
+        onehot_labels=y,
+        logits=output)
 
+    # Adam optimizer
     train_Adam = tf.train.AdamOptimizer().minimize(loss)
 
+    # comparison of indice's max value for y and logits
     y_pred = tf.argmax(output, axis=1)
     y_true = tf.argmax(y, axis=1)
     correct_prediction = tf.equal(y_pred, y_true)
 
+    # convert tensor boll in float32
     correct_prediction = tf.cast(correct_prediction, dtype=tf.float32)
 
+    # define accuracy
     accuracy = tf.reduce_mean(correct_prediction)
 
     return softmax, train_Adam, loss, accuracy
