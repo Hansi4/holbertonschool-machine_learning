@@ -45,8 +45,8 @@ def conv_backward(dZ, A_prev, W, b, padding="same", stride=(1, 1)):
                     dA_pad[i, vert_start:vert_end, horiz_start:horiz_end, :]\
                         += W[:, :, :, f] * dZ[i, h, w, f]
                     dW[:, :, :, f] += (A_prev_pad[i, vert_start:vert_end,
-                                                 horiz_start:horiz_end, :]
-                                      * dZ[i, h, w, f])
+                                                  horiz_start:horiz_end, :]
+                                       * dZ[i, h, w, f])
 
     if padding == "same":
         dA = dA_pad[:, ph:-ph, pw:-pw, :]
