@@ -21,6 +21,7 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
         for h in range(h_new):
             for w in range(w_new):
                 for f in range(c):
+
                     vert_start = h * sh
                     vert_end = vert_start + kh
                     horiz_start = w * sw
@@ -36,4 +37,5 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
                         mask = (a_prev_slice == np.max(a_prev_slice))
                         dA_prev[i, vert_start:vert_end, horiz_start:horiz_end, f] +=\
                             mask * dA[i, h, w, f]
+
     return dA_prev
