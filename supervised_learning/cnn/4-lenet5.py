@@ -13,31 +13,45 @@ def lenet5(x, y):
     initializer = tf.keras.initializers.VarianceScaling(scale=2.0)
 
     # build layer
-    conv1 = tf.layers.Conv2D(filters=6,
-                             kernel_size=5,
+    conv1 = tf.layers.Conv2D(inputs=x,
+                             filters=6,
+                             kernel_size=(5, 5),
                              padding='same',
                              kernel_initializer=initializer,
-                             activation='relu')(x)
-    pool1 = tf.layers.MaxPooling2D(pool_size=2,
-                                   strides=2)(conv1)
-    conv2 = tf.layers.Conv2D(filters=16,
-                             kernel_size=5,
+                             activation=tf.nn.relu,
+                             name='conv1')
+    pool1 = tf.layers.MaxPooling2D(inputs=conv1,
+                                   pool_size=(2, 2),
+                                   strides=(2, 2),
+                                   name='pool1')
+    conv2 = tf.layers.Conv2D(inputs=pool1,
+                             filters=16,
+                             kernel_size=(5, 5),
                              padding='valid',
                              kernel_initializer=initializer,
-                             activation='relu')(pool1)
-    pool2 = tf.layers.MaxPooling2D(pool_size=2,
-                                   strides=2)(conv2)
+                             activation=tf.nn.relu,
+                             name='conv2')
+    pool2 = tf.layers.MaxPooling2D(inputs=conv2,
+                                   pool_size=(2, 2),
+                                   strides=(2, 2),
+                                   name='pool2')
     # flatten layers to convert tensor multidim in vector unidirectional
-    flat = tf.layers.Flatten()(pool2)
-    full1 = tf.layers.Dense(120,
-                            activation='relu',
-                            kernel_initializer=initializer)(flat)
-    full2 = tf.layers.Dense(84,
-                            activation='relu',
-                            kernel_initializer=initializer)(full1)
-    output = tf.layers.Dense(10,
+    flatten = tf.layers.Flatten(pool2)
+    fc1 = tf.layers.Dense(inputs=flatten,
+                          units=120,
+                          activation=tf.nn.relu,
+                          kernel_initializer=initializer,
+                          name='fc1')
+    fc2 = tf.layers.Dense(inputs=fc1,
+                          units=84,
+                          activation=tf.nn.relu,
+                          kernel_initializer=initializer,
+                          name='fc2')
+    output = tf.layers.Dense(inputs=fc2,
+                             units=10,
                              activation=None,
-                             kernel_initializer=initializer)(full2)
+                             kernel_initializer=initializer,
+                             name='logits')
     softmax = tf.nn.softmax(output)
 
     # calculate loss
