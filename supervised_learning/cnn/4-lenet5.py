@@ -81,11 +81,15 @@ def lenet5(x, y):
     softmax_output = tf.nn.softmax(logits, name='softmax_output')
 
     # Loss function
-    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=logits), name='loss')
+    loss = tf.reduce_mean(
+        tf.nn.softmax_cross_entropy_with_logits(
+            labels=y, logits=logits), name='loss')
 
     # Accuracy
-    correct_prediction = tf.equal(tf.argmax(softmax_output, 1), tf.argmax(y, 1))
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32), name='accuracy')
+    correct_prediction = tf.equal(
+        tf.argmax(softmax_output, 1), tf.argmax(y, 1))
+    accuracy = tf.reduce_mean(
+        tf.cast(correct_prediction, tf.float32), name='accuracy')
 
     # Training operation
     optimizer = tf.train.AdamOptimizer()
