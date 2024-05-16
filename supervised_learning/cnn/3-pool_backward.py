@@ -14,30 +14,28 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
     kh, kw = kernel_shape
     sh, sw = stride
 
-    # initialize shape for dA_prev and dW
     dA_prev = np.zeros(A_prev.shape)
 
     for i in range(m):
         for h in range(h_new):
             for w in range(w_new):
                 for f in range(c):
-                    # define vertical/horizontal start and end
-                    v_start = h * sh
-                    v_end = v_start + kh
-                    h_start = w * sw
-                    h_end = h_start + kw
+
+                    vert_start = h * sh
+                    vert_end = vert_start + kh
+                    horiz_start = w * sw
+                    horiz_end = horiz_start + kw
 
                     if mode == 'avg':
-                        # mean of derivatives would be added to all
-                        # cells within the kernel grid in every moves
+
                         avg_dA = dA[i, h, w, f] / kh / kw
-                        dA_prev[i, v_start:v_end, h_start:h_end, f] += (
+                        dA_prev[i, vert_start:vert_end, horiz_start:horiz_end, f] += (
                                 np.ones((kh, kw)) * avg_dA)
                     elif mode == 'max':
                         a_prev_slice \
-                            = A_prev[i, v_start:v_end, h_start:h_end, f]
+                            = A_prev[i, vert_start:vert_end, horiz_start:horiz_end, f]
                         mask = (a_prev_slice == np.max(a_prev_slice))
-                        dA_prev[i, v_start:v_end, h_start:h_end, f] +=\
+                        dA_prev[i, vert_start:vert_end, horiz_start:horiz_end, f] +=\
                             mask * dA[i, h, w, f]
-                            
+
     return dA_prev
