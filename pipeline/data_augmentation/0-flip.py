@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+""" Defines function that flips an image horizontally """
+
 
 import tensorflow as tf
 
