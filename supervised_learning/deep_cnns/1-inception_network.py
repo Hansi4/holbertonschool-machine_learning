@@ -10,76 +10,68 @@ def inception_network():
     """ A python function that builds the inception network
     as described in Going Deeper with Convolutions (2014) """
 
-    image_input = K.Input(shape=(224, 224, 3))
+    init = K.initializers.he_normal()
+    activation = K.activations.relu
+    img_input = K.Input(shape=(224, 224, 3))
 
-    C1 = K.layers.Conv2D(filters=64,
+    C0 = K.layers.Conv2D(filters=64,
                          kernel_size=(7, 7),
                          padding='same',
                          strides=(2, 2),
-                         activation=K.activations.relu,
-                         kernel_initializer=K.initializers.he_normal())
-    output_1 = C1(image_input)
+                         activation=activation,
+                         kernel_initializer=init)(img_input)
 
     MP1 = K.layers.MaxPooling2D(pool_size=(3, 3),
                                 strides=(2, 2),
-                                padding='same')
-    output_2 = MP1(output_1)
+                                padding='same')(C0)
 
     C2 = K.layers.Conv2D(filters=64,
                          kernel_size=(1, 1),
                          padding='same',
                          strides=(1, 1),
-                         activation=K.activation.relu,
-                         kernel_initializer=K.initializers.he_normal())
-    output_3 = C2(output_2)
-    
+                         activation=activation,
+                         kernel_initializer=init)(MP1)
+
     C3 = K.layers.Conv2D(filters=192,
                          kernel_size=(3, 3),
                          padding='same',
                          strides=(1, 1),
-                         activation=K.activations.relu,
-                         kernel_initializer=K.initializers.he_normal())
-    output_4 = C3(output_3)
-
-    MP2 = K.layers.MaxPooling2D(pool_size=(3, 3),
-                                strides=(2, 2),
-                                padding='same')
-    output_5 = MP2(output_4)
-
-    I5 = inception_block(MP2, [64, 96, 128, 16, 32, 32])
-    I6 = inception_block(I5, [128, 128, 192, 32, 96, 64])
-
-    MP3 = K.layers.MaxPooling2D(pool_size=(3, 3),
-                                strides=(2, 2),
-                                padding='same')
-    output_6 = MP3(output_5)
-
-    I7 = inception_block(MP3, [192, 96, 208, 16, 48, 64])
-    I8 = inception_block(I7, [160, 112, 224, 24, 64, 64])
-    I9 = inception_block(I8, [128, 128, 256, 24, 64, 64])
-    I10 = inception_block(I9, [112, 144, 288, 32, 64, 64])
-    I11 = inception_block(I10, [256, 160, 320, 32, 128, 128])
+                         activation=activation,
+                         kernel_initializer=init)(C2)
 
     MP4 = K.layers.MaxPooling2D(pool_size=(3, 3),
                                 strides=(2, 2),
-                                padding='same')
-    output_7 = MP4(output_6)
+                                padding='same')(C3)
 
-    I12 = inception_block(MP4, [256, 160, 320, 32, 128, 128])
-    I13 = inception_block(I12, [384, 192, 384, 48, 128, 128])
+    I5 = inception_block(MP4, [64, 96, 128, 16, 32, 32])
+    I6 = inception_block(I5, [128, 128, 192, 32, 96, 64])
 
-    AP1 = K.layers.AveragePooling2D(pool_size=(7, 7),
-                                    strides=(1, 1),
-                                    padding='same')
-    output_8 = AP1(output_7)
+    MP7 = K.layers.MaxPooling2D(pool_size=(3, 3),
+                                strides=(2, 2),
+                                padding='same')(I6)
 
-    Dropout17 = K.layers.Dropout(rate=0.4)
-    output_9 = Dropout17(output_8)
+    I8 = inception_block(MP7, [192, 96, 208, 16, 48, 64])
+    I9 = inception_block(I8, [160, 112, 224, 24, 64, 64])
+    I10 = inception_block(I9, [128, 128, 256, 24, 64, 64])
+    I11 = inception_block(I10, [112, 144, 288, 32, 64, 64])
+    I12 = inception_block(I11, [256, 160, 320, 32, 128, 128])
+
+    MP13 = K.layers.MaxPooling2D(pool_size=(3, 3),
+                                 strides=(2, 2),
+                                 padding='same')(I12)
+
+    I14 = inception_block(MP13, [256, 160, 320, 32, 128, 128])
+    I15 = inception_block(I14, [384, 192, 384, 48, 128, 128])
+
+    AP16 = K.layers.AveragePooling2D(pool_size=(7, 7),
+                                     strides=(1, 1),
+                                     padding='valid')(I15)
+
+    Dropout17 = K.layers.Dropout(rate=0.4)(AP16)
 
     output = K.layers.Dense(1000,
                             activation='softmax',
-                            kernel_initializer=K.initializers.he_normal())
-    output_10 = output(output_9)
+                            kernel_initializer=init)(Dropout17)
 
     model = K.Model(inputs=img_input, outputs=output)
 
