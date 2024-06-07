@@ -16,7 +16,6 @@ def identity_block(A_prev, filters):
     C11 = K.layers.Conv2D(filters=F11,
                           kernel_size=(1, 1),
                           padding='same',
-                          activation=activation,
                           kernel_initializer=init)(A_prev)
 
     Batch_Normalization_11 = K.layers.BatchNormalization(axis=3)(C11)
@@ -25,7 +24,6 @@ def identity_block(A_prev, filters):
     C33 = K.layers.Conv2D(filters=F3,
                           kernel_size=(3, 3),
                           padding='same',
-                          activation=activation,
                           kernel_initializer=init)(Re_LU_11)
 
     Batch_Normalization_33 = K.layers.BatchNormalization(axis=3)(C33)
@@ -34,7 +32,6 @@ def identity_block(A_prev, filters):
     C12 = K.layers.Conv2D(filters=F12,
                           kernel_size=(1, 1),
                           padding='same',
-                          activation=activation,
                           kernel_initializer=init)(Re_LU_33)
 
     Batch_Normalization_12 = K.layers.BatchNormalization(axis=3)(C12)
