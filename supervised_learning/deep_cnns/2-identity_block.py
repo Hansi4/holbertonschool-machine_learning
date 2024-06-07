@@ -18,25 +18,25 @@ def identity_block(A_prev, filters):
                           padding='same',
                           kernel_initializer=init)(A_prev)
 
-    Batch_Normalization_11 = K.layers.BatchNormalization(axis=3)(C11)
-    Re_LU_11 = K.layers.Activation(activation)(Batch_Normalization_11)
+    Batch_Norm11 = K.layers.BatchNormalization(axis=3)(C11)
+    ReLU11 = K.layers.Activation(activation)(Batch_Norm11)
 
-    C33 = K.layers.Conv2D(filters=F3,
-                          kernel_size=(3, 3),
-                          padding='same',
-                          kernel_initializer=init)(Re_LU_11)
+    C3 = K.layers.Conv2D(filters=F3,
+                         kernel_size=(3, 3),
+                         padding='same',
+                         kernel_initializer=init)(ReLU11)
 
-    Batch_Normalization_33 = K.layers.BatchNormalization(axis=3)(C33)
-    Re_LU_33 = K.layers.Activation(activation)(Batch_Normalization_33)
+    Batch_Norm3 = K.layers.BatchNormalization(axis=3)(C3)
+    ReLU3 = K.layers.Activation(activation)(Batch_Norm3)
 
     C12 = K.layers.Conv2D(filters=F12,
                           kernel_size=(1, 1),
                           padding='same',
-                          kernel_initializer=init)(Re_LU_33)
+                          kernel_initializer=init)(ReLU3)
 
-    Batch_Normalization_12 = K.layers.BatchNormalization(axis=3)(C12)
+    Batch_Norm12 = K.layers.BatchNormalization(axis=3)(C12)
 
-    Addition = K.layers.Add()([Batch_Normalization_12, A_prev])
+    Addition = K.layers.Add()([Batch_Norm12, A_prev])
 
     output = K.layers.Activation(activation)(Addition)
 
