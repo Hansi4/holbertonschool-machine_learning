@@ -10,7 +10,7 @@ def projection_block(A_prev, filters, s=2):
     in Deep Residual Learning for Image Recognition (2015) """
 
     F11, F3, F12 = filters
-    init = K.initializers.he_normal()
+    init = K.initializers.he_normal(seed=0)
     activation = K.activations.relu
 
     C11 = K.layers.Conv2D(filters=F11,
@@ -19,23 +19,23 @@ def projection_block(A_prev, filters, s=2):
                           strides=s,
                           kernel_initializer=init)(A_prev)
 
-    Batch_Norm11 = K.layers.BatchNormalization(axis=3)(C11)
-    ReLU11 = K.layers.Activation(activation)(Batch_Norm11)
+    Batch_Normalization_11 = K.layers.BatchNormalization(axis=3)(C11)
+    ReLU_11 = K.layers.Activation(activation)(Batch_Normalization_11)
 
-    C3 = K.layers.Conv2D(filters=F3,
-                         kernel_size=(3, 3),
-                         padding='same',
-                         kernel_initializer=init)(ReLU11)
+    C33 = K.layers.Conv2D(filters=F3,
+                          kernel_size=(3, 3),
+                          padding='same',
+                          kernel_initializer=init)(ReLU_11)
 
-    Batch_Norm3 = K.layers.BatchNormalization(axis=3)(C3)
-    ReLU3 = K.layers.Activation(activation)(Batch_Norm3)
+    Batch_Normalization_33 = K.layers.BatchNormalization(axis=3)(C33)
+    ReLU_33 = K.layers.Activation(activation)(Batch_Normalization_33)
 
     C12 = K.layers.Conv2D(filters=F12,
                           kernel_size=(1, 1),
                           padding='same',
-                          kernel_initializer=init)(ReLU3)
+                          kernel_initializer=init)(ReLU_33)
 
-    Batch_Norm12 = K.layers.BatchNormalization(axis=3)(C12)
+    Batch_Normalization_12 = K.layers.BatchNormalization(axis=3)(C12)
 
     SC = K.layers.Conv2D(filters=F12,
                          kernel_size=(1, 1),
@@ -43,9 +43,9 @@ def projection_block(A_prev, filters, s=2):
                          strides=s,
                          kernel_initializer=init)(A_prev)
 
-    Batch_NormSC = K.layers.BatchNormalization(axis=3)(SC)
+    Batch_Normalization_SC = K.layers.BatchNormalization(axis=3)(SC)
 
-    Addition = K.layers.Add()([Batch_Norm12, Batch_NormSC])
+    Addition = K.layers.Add()([Batch_Normalization_12, Batch_Normalization_SC])
 
     output = K.layers.Activation(activation)(Addition)
 
