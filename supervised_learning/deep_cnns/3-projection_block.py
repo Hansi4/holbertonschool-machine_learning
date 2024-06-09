@@ -16,27 +16,36 @@ def projection_block(A_prev, filters, s=2):
     C11 = K.layers.Conv2D(filters=F11,
                           kernel_size=(1, 1),
                           padding='same',
+                          strides=s,
                           kernel_initializer=init)(A_prev)
 
-    Batch_Normalization_11 = K.layers.BatchNormalization(axis=3)(C11)
-    ReLU_11 = K.layers.Activation(activation)(Batch_Normalization_11)
+    Batch_Norm11 = K.layers.BatchNormalization(axis=3)(C11)
+    ReLU11 = K.layers.Activation(activation)(Batch_Norm11)
 
-    C33 = K.layers.Conv2D(filters=F3,
-                          kernel_size=(3, 3),
-                          padding='same',
-                          kernel_initializer=init)(ReLU_11)
+    C3 = K.layers.Conv2D(filters=F3,
+                         kernel_size=(3, 3),
+                         padding='same',
+                         kernel_initializer=init)(ReLU11)
 
-    Batch_Normalization_33 = K.layers.BatchNormalization(axis=3)(C33)
-    ReLU_33 = K.layers.Activation(activation)(Batch_Normalization_33)
+    Batch_Norm3 = K.layers.BatchNormalization(axis=3)(C3)
+    ReLU3 = K.layers.Activation(activation)(Batch_Norm3)
 
     C12 = K.layers.Conv2D(filters=F12,
                           kernel_size=(1, 1),
                           padding='same',
-                          kernel_initializer=init)(ReLU_33)
+                          kernel_initializer=init)(ReLU3)
 
-    Batch_Normalization_12 = K.layers.BatchNormalization(axis=3)(C12)
+    Batch_Norm12 = K.layers.BatchNormalization(axis=3)(C12)
 
-    Addition = K.layers.Add()([Batch_Normalization_12, A_prev])
+    SC = K.layers.Conv2D(filters=F12,
+                         kernel_size=(1, 1),
+                         padding='same',
+                         strides=s,
+                         kernel_initializer=init)(A_prev)
+
+    Batch_NormSC = K.layers.BatchNormalization(axis=3)(SC)
+
+    Addition = K.layers.Add()([Batch_Norm12, Batch_NormSC])
 
     output = K.layers.Activation(activation)(Addition)
 
