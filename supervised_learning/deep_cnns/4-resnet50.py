@@ -11,7 +11,7 @@ def resnet50():
     """ A python function that builds the ResNet-50 architecture
     as described in Deep Residual Learning for Image Recognition (2015) """
 
-    init = K.initializers.he_normal(seed=0)
+    init = K.initializers.he_normal()
     activation = K.activations.relu
     img_input = K.Input(shape=(224, 224, 3))
 
