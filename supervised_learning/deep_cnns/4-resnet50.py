@@ -2,7 +2,7 @@
 """ ResNet-50 """
 
 
-from tensorflow import keras as K
+import tensorflow.keras as K
 identity_block = __import__('2-identity_block').identity_block
 projection_block = __import__('3-projection_block').projection_block
 
@@ -11,7 +11,7 @@ def resnet50():
     """ A python function that builds the ResNet-50 architecture
     as described in Deep Residual Learning for Image Recognition (2015) """
 
-    init = K.initializers.he_normal()
+    init = K.initializers.he_normal(seed=0)
     activation = K.activations.relu
     img_input = K.Input(shape=(224, 224, 3))
 
