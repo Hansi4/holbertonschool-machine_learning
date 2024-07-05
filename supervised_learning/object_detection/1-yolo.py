@@ -5,11 +5,12 @@ import numpy as np
 
 
 class Yolo:
-    """ A class Yolo that uses the Yolo v3 algorithm to perform object detection """
+    """ A class Yolo that uses the
+    Yolo v3 algorithm to perform object detection """
 
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """ Class constructor of Yolo class """
-        self.model = K.models.load_model(model_path)
+        self.model = tf.keras.models.load_model(model_path)
         self.class_names = []
         with open(classes_path, 'r') as f:
             for line in f:
