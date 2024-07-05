@@ -121,7 +121,7 @@ class Yolo:
                                         axis=0)
 
         return filtered_boxes, box_classes, box_scores
-    
+
     def iou(self, box1, box2):
         """ Execute Intersection over Union (IoU) between 2 box """
         b1x1, b1y1, b1x2, b1y2 = tuple(box1)
