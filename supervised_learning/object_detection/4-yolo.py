@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
-""" Initialize Yolo """
+"""
+    Initialize Yolo
+"""
+import cv2
+import os
 import tensorflow as tf
 import numpy as np
 
 
 class Yolo:
-    """ A class Yolo that uses
-    the Yolo v3 algorithm to perform object detection """
+    """
+        Class Yolo uses the Yolo v3 algorithm to perform object detection
+    """
 
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
-        """ Class constructor of Yolo class """
+        """
+            Class constructor of Yolo class
+        """
         self.model = tf.keras.models.load_model(model_path)
         self.class_names = []
         with open(classes_path, 'r') as f:
@@ -21,7 +28,9 @@ class Yolo:
         self.anchors = anchors
 
     def process_outputs(self, outputs, image_size):
-        """ Function to process outputs """
+        """
+            Function to process outputs
+        """
         # extract image size
         image_height, image_height = image_size
 
@@ -90,7 +99,9 @@ class Yolo:
         return boxes, box_confidences, box_class_probs
 
     def filter_boxes(self, boxes, box_confidences, box_class_probs):
-        """ Public method to filter boxes of preprocess method """
+        """
+            Public method to filter boxes of preprocess method
+        """
 
         # initialize with 4 col to be wompatible with mask
         filtered_boxes = np.empty((0, 4))
@@ -122,7 +133,9 @@ class Yolo:
         return filtered_boxes, box_classes, box_scores
 
     def iou(self, box1, box2):
-        """ Execute Intersection over Union (IoU) between 2 box """
+        """
+            Execute Intersection over Union (IoU) between 2 box
+        """
         b1x1, b1y1, b1x2, b1y2 = tuple(box1)
         b2x1, b2y1, b2x2, b2y2 = tuple(box2)
 
@@ -144,7 +157,10 @@ class Yolo:
         return result
 
     def non_max_suppression(self, filtered_boxes, box_classes, box_scores):
-        """ method to apply Non-max Suppression (suppress overlapping box) """
+        """
+            method to apply Non-max Suppression
+            (suppress overlapping box)
+        """
         box_predictions = []
         predicted_box_classes = []
         predicted_box_scores = []
