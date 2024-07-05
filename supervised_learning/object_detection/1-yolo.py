@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """ Initialize Yolo """
-
-
 import tensorflow as tf
 import numpy as np
 
