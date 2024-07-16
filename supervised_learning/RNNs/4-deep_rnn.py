@@ -23,7 +23,7 @@ def deep_rnn(rnn_cells, X, h_0):
                     Y = y
                 else:
                     Y = np.concatenate((Y, y))
-      
+
     output_shape = Y.shape[-1]
     Y = Y.reshape(t, m, output_shape)
 
