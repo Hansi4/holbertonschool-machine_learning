@@ -11,7 +11,7 @@ def deep_rnn(rnn_cells, X, h_0):
     l, m, h = h_0.shape
     H = np.zeros((t + 1, layers, m, h))
     H[0] = h_0
-    
+
     for step in range(t):
         for layer in range(layers):
             if layer == 0:
@@ -23,8 +23,8 @@ def deep_rnn(rnn_cells, X, h_0):
                     Y = y
                 else:
                     Y = np.concatenate((Y, y))
-                    
+      
     output_shape = Y.shape[-1]
     Y = Y.reshape(t, m, output_shape)
-    
+
     return (H, Y)
