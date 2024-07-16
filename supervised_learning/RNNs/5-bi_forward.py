@@ -1,0 +1,27 @@
+#!/usr/bin/env python3
+""" Bidirectional Cell Forward Module """
+import numpy as np
+
+
+class BidirectionalCell:
+    """ A python function that represents a bidirectional cell of an RNN """
+
+    def __init__(self, i, h, o):
+
+        self.Whf = np.random.normal(size=(i+h, h))
+        self.Whb = np.random.normal(size=(i+h, h))
+        self.Wy = np.random.normal(size=(h*2, o))
+
+        self.bhf = np.zeros((1, h))
+        self.bhb = np.zeros((1, h))
+        self.by = np.zeros((1, o))
+
+    def forward(self, h_prev, x_t):
+        """ A python function that performs
+        forward propagation for one time step """
+
+        h_x = np.concatenate((h_prev, x_t), axis=1)
+
+        h_next = np.tanh(np.dot(h_x, self.Whf) + self.bhf)
+
+        return h_next
