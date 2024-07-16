@@ -7,7 +7,7 @@ class GRUCell:
     """ A python function that represents a gated recurrent unit """
 
     def __init__(self, i, h, o):
-        
+
         self.Wz = np.random.normal(size=(i+h, h))
         self.Wr = np.random.normal(size=(i+h, h))
         self.Wh = np.random.normal(size=(i+h, h))
