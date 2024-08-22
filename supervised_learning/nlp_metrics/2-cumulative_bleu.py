@@ -11,7 +11,7 @@ def cumulative_bleu(references, sentence, n):
                           len(min(references, key=len)) / len(sentence)))
     Precision = []
 
-    for m in range:
+    for m in range(1, n+1):
         n_grams = []
         for reference in references:
             n_grams_ref = []
