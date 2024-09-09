@@ -10,11 +10,11 @@ from transformers import BertTokenizer
 def question_answer(question, reference):
     """ A python function that finds a snippet of
     text within a reference document to answer a question """
-    
+
     # Specialized for the SQuAD (Stanford Question Answering Dataset) task
     tokenizer = BertTokenizer.from_pretrained(
         'bert-large-uncased-whole-word-masking-finetuned-squad')
-    
+
     # Predict the start and end positions of an answer in a text passage
     model = hub.load("https://tfhub.dev/see--/bert-uncased-tf2-qa/1")
 
@@ -27,11 +27,11 @@ def question_answer(question, reference):
 
     # The tokens are converted into numerical IDs
     input_word_ids = tokenizer.convert_tokens_to_ids(tokens)
-    
+
     # A list of 1 indicates the presence of a token
     # Used to differentiate between tokens and padding
     input_mask = [1] * len(input_word_ids)
-    
+
     # 0 for question segment, 1 for reference segments
     input_type_ids = [0] * (1 + len(quest_tokens) + 1) + [1] * (len(refer_tokens) + 1)
 
