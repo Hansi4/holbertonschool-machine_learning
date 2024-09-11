@@ -1,27 +1,18 @@
 #!/usr/bin/env python3
-"""
-Calculates the unigram score of BLEU
-"""
-
-
+"""Unigram BLEU Score"""
 import numpy as np
 
 
 def uni_bleu(references, sentence):
     """
-    Calculates the unigram score of BLEU
+    Calculates the unigram BLEU score for a sentence
+        - references is a list of reference translations
+        - each reference translation is a list of the words in the translation
+        - sentence is a list containing the model proposed sentence
 
-    Parameters:
-        references (list): list of reference translations
-            each reference is a list of words in the translation
-
-        sentence (list): list containing the translation model proposed
-
-    Returns:
-        unigram BLEU score
-
-    BP is belief propagation
+    Returns: the unigram BLEU score
     """
+
     BP = min(1, np.exp(1 - len(min(references, key=len)) / len(sentence)))
 
     precision = max([sum(match in reference for match in set(sentence))
