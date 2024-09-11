@@ -1,18 +1,30 @@
 #!/usr/bin/env python3
-""" Unigram BLEU score """
+"""
+Calculates the unigram score of BLEU
+"""
+
+
 import numpy as np
 
 
 def uni_bleu(references, sentence):
-    """ A python function that calculates
-    the unigram BLEU score for a sentence """
+    """
+    Calculates the unigram score of BLEU
 
-    Brevity_Penalty = min(1, np.exp(1 -
-                          len(min(references, key=len)) / len(sentence)))
+    Parameters:
+        references (list): list of reference translations
+            each reference is a list of words in the translation
 
-    Precision = max([sum(match in reference for match in set(sentence))
+        sentence (list): list containing the translation model proposed
+
+    Returns:
+        unigram BLEU score
+
+    BP is belief propagation
+    """
+    BP = min(1, np.exp(1 - len(min(references, key=len)) / len(sentence)))
+
+    precision = max([sum(match in reference for match in set(sentence))
                      for reference in references]) / len(sentence)
 
-    BLEU_Score = Brevity_Penalty * np.exp(np.log(Precision))
-
-    return BLEU_Score
+    return BP * np.exp(np.log(precision))
