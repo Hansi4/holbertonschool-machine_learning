@@ -7,12 +7,16 @@ def HP(Di, beta):
     """ A python function that calculates the Shannon
     entropy and P affinities relative to a data point """
 
-    # Compute the P affinities using the Gaussian distribution
-    Pi = np.exp(-Di * beta)
-    sum_Pi = np.sum(Pi)
-    Pi = Pi / sum_Pi  # Normalize to get affinities
+    # Ensure beta is a scalar
+    beta = beta.item()
 
-    # Compute the Shannon entropy
-    Hi = -np.sum(Pi * np.log2(Pi + 1e-10))  # Adding a small epsilon to avoid log(0)
+    # Calculate P affinities using the Gaussian distribution
+    P = np.exp(-Di ** 2 / (2 * beta ** 2))
+
+    # Normalize P affinities to sum to 1
+    Pi = P / np.sum(P)
+
+    # Calculate Shannon entropy
+    Hi = -np.sum(Pi * np.log(Pi + 1e-10))  # Adding a small value to avoid log(0)
 
     return Hi, Pi
