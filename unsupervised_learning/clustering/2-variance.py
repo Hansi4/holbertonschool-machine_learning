@@ -9,7 +9,7 @@ def variance(X, C):
 
     n, d = X.shape
     centroids_extended = C[:, np.newaxis]
-    distances = np.sqrt(((X - centroids_extended) ** 2).sum(axis=2))
+    distances = np.sqrt((((X - centroids_extended) ** 2).sum(axis=2)))
 
     min_distances = np.min(distances, axis=0)
     variances = np.sum(min_distances ** 2)
