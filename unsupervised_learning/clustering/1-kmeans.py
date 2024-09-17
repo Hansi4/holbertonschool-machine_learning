@@ -36,6 +36,7 @@ def kmeans(X, k, iterations=1000):
         for c in range(k):
             if X[clss == c].size == 0:
                 C[c] = np.random.uniform(X_min, X_max, size=(1, d))
+            else:
             C[c] = X[clss == c].mean(axis=0)
 
 
