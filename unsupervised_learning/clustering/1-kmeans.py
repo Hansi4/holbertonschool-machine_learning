@@ -39,10 +39,10 @@ def kmeans(X, k, iterations=1000):
             else:
                 C[c] = X[clss == c].mean(axis=0)
 
-
         centroids_extended = C[:, np.newaxis]
         distances = np.sqrt(((X - centroids_extended) ** 2).sum(axis=2))
         clss = np.argmin(distances, axis=0)
+
 
         if (centroids == C).all():
             break
