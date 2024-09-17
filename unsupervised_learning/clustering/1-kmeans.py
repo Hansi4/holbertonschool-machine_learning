@@ -29,7 +29,7 @@ def kmeans(X, k, iterations=1000):
         centroids_extended = C[:, np.newaxis]
 
         # 2. Calculate distance
-        distances = np.sqrt((X - centroids_extended) ** 2).sum(axis=2)
+        distances = np.sqrt(((X - centroids_extended) ** 2).sum(axis=2))
         clss = np.argmin(distances, axis=0)
 
         # Reassign points to closest centroid
@@ -40,7 +40,7 @@ def kmeans(X, k, iterations=1000):
 
 
         centroids_extended = C[:, np.newaxis]
-        distances = np.sqrt((X - centroids_extended) ** 2).sum(axis=2)
+        distances = np.sqrt(((X - centroids_extended) ** 2).sum(axis=2))
         clss = np.argmin(distances, axis=0)
 
         if (centroids == C).all():
