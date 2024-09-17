@@ -6,7 +6,7 @@ import numpy as np
 def initialize(X, k):
     """ A python function that initializes cluster centroids for K-means """
 
-    if not isinstance(X, numpy.ndarray) or len(X.shape) != 2:
+    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None
     if not isinstance(k, int) or k <= 0:
         return None
