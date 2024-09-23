@@ -8,17 +8,13 @@ def gensim_to_keras(model):
     vocab_size = len(model.wv)
     embedding_dim = model.wv.vector_size
     
-    # Create a TensorFlow variable to hold the weights
-    weights = tf.Variable(tf.zeros((vocab_size, embedding_dim)), trainable=False)
-    
-    # Populate the weights matrix using TensorFlow
-    for i, word in enumerate(model.wv.index_to_key):
-        weights[i].assign(model.wv[word])
-    
-    # Create a Keras Embedding layer with trainable weights
+    # Create a NumPy array to hold the weights
+    weights = tf.convert_to_tensor(model.wv.vectors, dtype=tf.float32)
+
+    # Create a Keras Embedding layer with the weights
     embedding_layer = tf.keras.layers.Embedding(input_dim=vocab_size,
                                                 output_dim=embedding_dim,
-                                                embeddings_initializer=tf.keras.initializers.Constant(weights.numpy()),
+                                                embeddings_initializer=tf.keras.initializers.Constant(weights),
                                                 trainable=True)
     
     return embedding_layer
