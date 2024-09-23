@@ -49,3 +49,23 @@ def kmeans(X, k, iterations=1000):
             break
 
     return C, clss
+
+
+
+
+
+
+
+
+
+
+
+def variance(X, C):
+    n, d = X.shape
+    centroids_extended = C[:, np.newaxis]
+    distances = np.sqrt((((X - centroids_extended) ** 2).sum(axis=2)))
+
+    min_distanes = np.min(distances, axis=0)
+    variances = np.sum(min_distanes ** 2)
+
+    return variance
