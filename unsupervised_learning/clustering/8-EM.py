@@ -6,7 +6,11 @@ expectation = __import__('6-expectation').expectation
 maximization = __import__('7-maximization').maximization
 
 
-def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
+def expectation_maximization(X,
+                             k,
+                             iterations=1000,
+                             tol=1e-5,
+                             verbose=False):
     """ A python function that performs
     the expectation maximization for a GMM """
 
