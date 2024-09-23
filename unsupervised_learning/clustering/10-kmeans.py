@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+""" Hello, sklearn! """
+
+import sklearn.cluster
+
+
+def kmeans(X, k):
+    """ A python function that performs K-means on a dataset """
+    kmeans = sklearn.cluster.Kmeans(n_clusters=k)
+    kmeans.fit(X)
+    
+    return kmeans.cluster_centers_, kmeans.labels_
