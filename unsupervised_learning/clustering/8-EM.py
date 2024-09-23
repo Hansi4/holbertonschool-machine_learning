@@ -7,7 +7,8 @@ maximization = __import__('7-maximization').maximization
 
 
 def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
-    """ A python function that performs the expectation maximization for a GMM """
+    """ A python function that performs
+    the expectation maximization for a GMM """
 
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None, None, None, None, None
