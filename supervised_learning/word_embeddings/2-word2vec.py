@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """ Train Word2Vec Module """
+import gensim
 from gensim.models import Word2Vec
 
 
