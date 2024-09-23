@@ -16,13 +16,10 @@ def initialize(X, k):
 
     n, d = X.shape
 
-    # priors for each cluster, initialized evenly
     phi = np.ones(k) / k
 
-    # centroid means for each cluster, initialized with K-means
     m, _ = kmeans(X, k)
 
-    # covariance matrices for each cluster, initialized as identity matrices
     S = np.tile(np.identity(d), (k, 1)).reshape(k, d, d)
 
     return phi, m, S
