@@ -10,8 +10,8 @@ def fasttext_model(sentences, vector_size=100, min_count=5, negative=5, window=5
     # Set sg to 0 for CBOW, 1 for Skip-gram
     sg = 0 if cbow else 1
 
-    model = gensim.models.FastText(sentences=sentences, vector_size=vector_size, 
-                                   min_count=min_count, window=window, 
+    model = gensim.models.FastText(sentences=sentences, vector_size=vector_size,
+                                   min_count=min_count, window=window,
                                    negative=negative, epochs=epochs,
                                    seed=seed, workers=workers, sg=sg)
 
