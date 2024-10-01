@@ -17,6 +17,7 @@ def sampling(args):
     epsilon = tf.keras.backend.random_normal(shape=(batch, dim))
     return z_mean + tf.exp(0.5 * z_log_var) * epsilon
 
+
 def autoencoder(input_dims, hidden_layers, latent_dims):
     """ A python function that creates a variational autoencoder """
 
@@ -33,7 +34,8 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     z_log_var = layers.Dense(latent_dims, activation=None)(x)
 
     # Sampling layer (using reparameterization trick)
-    z = layers.Lambda(sampling, output_shape=(latent_dims,))([z_mean, z_log_var])
+    z = layers.Lambda(sampling,
+                      output_shape=(latent_dims,))([z_mean, z_log_var])
 
     # Encoder model
     encoder = models.Model(inputs, [z, z_mean, z_log_var], name='encoder')
