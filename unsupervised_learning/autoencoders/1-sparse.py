@@ -19,11 +19,22 @@ def autoencoder(input_dims, hidden_layers, latent_dims, lambtha):
                                 activity_regularizer=
                                 keras.regularizers.l1(lambtha))(encoded)
 
-    encoded = keras.models.Model(input_layer, latent)
+    # Decoder
+    decoded = latent
 
+    # Adding hidden layers to the decoder (reverse of encoder)
+    for nodes in reversed(hidden_layers):
+        decoded = keras.layers.Dense(nodes, activation='relu')(decoded)
+
+    # Output layer with Sigmoid activation for binary cross-entropy
+    output_layer = keras.layers.Dense(input_dims,
+                                      activation='sigmoid')(decoded)
+
+    # Models
+    encoder = keras.models.Model(input_layer, latent, name="encoder")
     decoder_input = keras.layers.Input(shape=(latent_dims,))
-    decoded = decoder_input
- 
+    decoder_output = decoder_input
+
     # Build decoder layers
     for nodes in reversed(hidden_layers):
         decoder_output = keras.layers.Dense(nodes,
